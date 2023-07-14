@@ -137,7 +137,7 @@ function App() {
   
   
   return (
-    <div className='App' >   
+    <div className='App'  >   
        
      <h2>T  O  D  O</h2> 
       <img src= {isDarkTheme ? sun : moon } style={{cursor:'pointer'}} onClick={themeChange} alt='Light Mode'/>
@@ -176,6 +176,8 @@ function App() {
        border:'1px solid black',
        borderRadius:'10px',
        paddingLeft:'40px',
+       alignItems:'center',
+      
         position: 'absolute',
         top: '50%',
         left: '49.5%',
@@ -217,24 +219,18 @@ function App() {
 
           {/*altering todo lists*/}    
 
-       {/* // <div style={{display:'flex',flexDirection:'row', alignItems:'flex-end',position:'absolute'}}> */}
-       {/* <div style={{position: 'relative', height: '100vh'}}> */}
-          <div style={{position: 'absolute', bottom: '0',display:'flex'}}>
-           <p style={{
-                paddingLeft:'40px' , fontSize:'25px',paddingRight:'370px',
-                color:isDarkTheme ?'white' : 'black',
-               
-           }}>
-          {`${count} items left`}
-           </p> 
-
-
-           <Button onClick={ClearAll}   style={{color:'red' , position:''}}>Clear Completed</Button>
-         </div>
-    {/* </div> */}
-        
-       {/* //</div> */}
+      <div className='parent'  style={{display:'flex' ,position:'absolute'}}>
+        <div className='child-one'  style={{position:'relative' , }}>
+        <p> {`${count} items completed`}
+          </p>
+        </div>
+        <div className='child-two'>
        
+        </div>
+
+      </div>
+         
+     
       </Container>
      
 
@@ -248,3 +244,16 @@ function App() {
 }
 
 export default App;
+
+
+{/* <p style={{
+  marginLeft:'20px',marginRight:'50%',
+  color:isDarkTheme ?'white' : 'black',
+ 
+}}>
+{`${count} items left`}
+</p> 
+
+
+<Button onClick={ClearAll}   style={{color:'red' ,position:'absolute', alignItems:'flex-end', position:'' ,
+marginLeft:'50%'}}>Clear Completed</Button> */}
