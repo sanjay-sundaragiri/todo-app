@@ -1,9 +1,9 @@
-import React, { useEffect, useState ,useRef} from 'react';
+import React, {  useState } from 'react';
 import DarkThemeImg from './images/bg-desktop-dark.jpg'
 import LightThemeImg from './images/bg-desktop-light.jpg'
 import moon from './images/icon-moon.svg'
 import sun from './images/icon-sun.svg'
-import Container from '@mui/material/Container';
+// import Container from '@mui/material/Container';
 import {Button,  TextField } from '@mui/material';
 import  CheckBox  from '@mui/material/Checkbox';
 
@@ -25,14 +25,14 @@ function App() {
     //After clicking the ADD Button.
   const enteredText=()=>{
    
-    if(items.length==8){
+    if(items.length===8){
       setInputText('')
       alert('Clear completed tasks to add more tasks!')
       return; //if the container reaches its limit ,then go back.
      }
    
    
-    if(inputText=='' ){
+    if(inputText==='' ){
     alert("Add some Text!")
        return; //if the text is empty ,do nothing.
     }
@@ -97,7 +97,7 @@ function App() {
     setItems(updateItems)
     
     //Decrement the count only if the checkbox is true(on).
-    const updateCount= items.map((item)=>{
+    const updateCount =()=>{items.forEach((item)=>{
       if(item.id===index){
         if(item.checked){
         setCounter((prevCount)=>prevCount-1)
@@ -105,7 +105,8 @@ function App() {
         }
       }
     })
-   
+   }
+   updateCount()
   }
    
  
@@ -137,16 +138,19 @@ function App() {
   
   
   return (
-    <div className='App'  >   
+    <div>   
        
-     <h2>T  O  D  O</h2> 
+       <div className='Title'>
+       <h2>T  O  D  O</h2> 
       <img src= {isDarkTheme ? sun : moon } style={{cursor:'pointer'}} onClick={themeChange} alt='Light Mode'/>
+       </div>
+     
       
       {/* Input TEXT FIELD */}
-      <div className='firstContain' style={{display:'flex'}}>
+      <div className='firstContain' >
 
         <TextField  style={{
-        width:'87%' ,backgroundColor: isDarkTheme ?'hsl(235, 24%, 19%)' : 'white' ,  height:'106%',borderRadius:'5px',
+        width:'87%' ,backgroundColor: isDarkTheme ?'hsl(235, 24%, 19%)' : 'white' ,height:'106%',borderRadius:'5px',
        
         
        }} 
@@ -154,48 +158,34 @@ function App() {
         style: {
           color: isDarkTheme ?'white' : 'black',
         },
-      }}
+          }}
      
        placeholder='Create a new todo...'
-      value={inputText}
-      onChange={handleText}
-     ></TextField>
+        value={inputText}
+        onChange={handleText}
+         ></TextField>
         
-      <Button variant='contained' color='success' style={{marginLeft:'7px'}} onClick={enteredText} >Add</Button>
+        <Button variant='contained' color='success' style={{marginLeft:'7px'}} onClick={enteredText} >Add</Button>
       </div>
       
+      
+
+      
       {/* CONTAINER FOR TEXT FIELDS */}
-       <Container fixed style={{
-        display: 'flex',
-        flexDirection:'column',
-        marginTop:'40px',
-        // paddingTop:'20px',
-        width: '36%',
-        height: '500px',
-       backgroundColor: isDarkTheme ?'hsl(235, 24%, 19%)' : 'white',
-       border:'1px solid black',
-       borderRadius:'10px',
-       paddingLeft:'40px',
-       alignItems:'center',
-      
-        position: 'absolute',
-        top: '50%',
-        left: '49.5%',
-        transform: 'translate(-50%, -30%)'
-        
-      }}  >
-      
-      {/* TEXT FIELDS */}
-   {items.map((item)=>( 
-   <div key={item.id} style={{ display: 'flex', alignItems: 'center', 
-   backgroundColor: isDarkTheme ?'hsl(235, 24%, 19%)' : 'white', width: '96%' }}>
-      <CheckBox
+    <div  className="container" style={{
+        backgroundColor: isDarkTheme ?'hsl(235, 24%, 19%)' : 'white',
+       }} >
+          
+          {items.map((item)=>( 
+      <div key={item.id} style={{ display: 'flex', alignItems: 'center', 
+       backgroundColor: isDarkTheme ?'hsl(235, 24%, 19%)' : 'white', width: '96%' }}>
+       <CheckBox
         
         checked={item.checked}
         onChange={()=>handleCheckbox(item.id)}
        
-      />
-      <TextField 
+        />
+       <TextField 
         style={{
           width: '100%', backgroundColor: isDarkTheme ?'hsl(235, 24%, 19%)' : 'white', height: '55px', borderRadius: '5px', border: 'none',
           textDecoration: item.checked ? 'line-through' : ''  ,
@@ -209,33 +199,35 @@ function App() {
           },
         }}
        
-      />
-      <IconButton onClick={()=>ClearCurrentField(item.id)} style={{color:'red'}}>
-      <CloseIcon />
-    </IconButton>
-    </div>
-     ))}
- 
-
-          {/*altering todo lists*/}    
-
-      <div className='parent'  style={{display:'flex' ,position:'absolute'}}>
-        <div className='child-one'  style={{position:'relative' , }}>
-        <p> {`${count} items completed`}
-          </p>
-        </div>
-        <div className='child-two'>
-       
-        </div>
-
+        />
+        <IconButton onClick={()=>ClearCurrentField(item.id)} style={{color:'red'}}>
+        <CloseIcon />
+        </IconButton>
       </div>
-         
-     
-      </Container>
+      ))}
+        
+        {/*altering todo lists*/}    
+
+       {/* // <div style={{display:'flex',flexDirection:'row', alignItems:'flex-end',position:'absolute'}}> */}
+       {/* <div style={{position: 'relative', height: '100vh'}}> */}
+       <div style={{position: 'absolute', bottom: '0',display:'flex'}}>
+           <p style={{
+                paddingLeft:'40px' , fontSize:'25px',paddingRight:'370px',
+                color:isDarkTheme ?'white' : 'black'
+           }}>
+          {` items left : ${count}`}
+           </p> 
+          
+
+           <Button onClick={ClearAll}   style={{color:'red' ,position:'fixed',left:'70%',bottom:'5%' }}>Clear Completed</Button>
+         </div>
+    
+
+    </div>
      
 
       
-    </div>
+   </div>
     
     
   
@@ -243,17 +235,5 @@ function App() {
   );
 }
 
+
 export default App;
-
-
-{/* <p style={{
-  marginLeft:'20px',marginRight:'50%',
-  color:isDarkTheme ?'white' : 'black',
- 
-}}>
-{`${count} items left`}
-</p> 
-
-
-<Button onClick={ClearAll}   style={{color:'red' ,position:'absolute', alignItems:'flex-end', position:'' ,
-marginLeft:'50%'}}>Clear Completed</Button> */}
